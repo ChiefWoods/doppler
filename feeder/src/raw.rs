@@ -19,9 +19,8 @@
 
 use std::time::Duration;
 
+use doppler_price_source::{aggregate, scalar_to_minor, Aggregate, PriceSource};
 use serde_json::Value;
-
-use crate::source::{aggregate, scalar_to_minor, Aggregate, PriceSource};
 
 /// A config-driven JSON HTTP price source.
 pub struct RawSource {
@@ -88,7 +87,10 @@ impl RawSource {
 
     /// Fetch and extract the price for `asset` (substituted into the URL template).
     pub fn price(&self, asset: &str) -> Result<u64, String> {
-        let url = self.url.replace("{asset}", asset).replace("{symbol}", asset);
+        let url = self
+            .url
+            .replace("{asset}", asset)
+            .replace("{symbol}", asset);
         let mut req = self.client.get(&url);
         for (key, value) in &self.headers {
             req = req.header(key, value);
@@ -133,13 +135,16 @@ pub fn pick(body: &Value, pointer: &str, decimals: u32, how: Aggregate) -> Resul
 #[cfg(test)]
 mod tests {
     use super::pick;
-    use crate::source::Aggregate;
+    use doppler_price_source::Aggregate;
     use serde_json::json;
 
     #[test]
     fn scalar_pointer() {
         let body = json!({ "data": { "amount": "60333.52" } });
-        assert_eq!(pick(&body, "/data/amount", 6, Aggregate::First), Ok(60_333_520_000));
+        assert_eq!(
+            pick(&body, "/data/amount", 6, Aggregate::First),
+            Ok(60_333_520_000)
+        );
     }
 
     #[test]

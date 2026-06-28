@@ -3,7 +3,7 @@
 //!
 //! This is the off-chain half of Doppler: the on-chain program and SDK already
 //! make a single update ~5 lines of code. The feeder wraps that in a price
-//! [`source::PriceSource`] + a [`Feeder::run`] loop so the dumbest dev can keep a
+//! [`PriceSource`] + a [`Feeder::run`] loop so the dumbest dev can keep a
 //! live feed running with one call.
 
 use std::mem::size_of;
@@ -19,8 +19,9 @@ use solana_pubkey::Pubkey;
 pub mod raw;
 pub mod source;
 pub mod tokens;
+pub use doppler_price_source::{aggregate, scalar_to_minor, Aggregate, PriceSource};
 pub use raw::RawSource;
-pub use source::{aggregate, scalar_to_minor, Aggregate, Binance, Coinbase, PriceSource};
+pub use source::{Binance, Coinbase};
 pub use tokens::{Assets, FeedType, Quote, Tier, TokensXyz, Variant};
 
 /// Decimals encoded into the on-chain `u64` price (USDC-style, matches the README).
@@ -69,7 +70,13 @@ impl<S: PriceSource> Feeder<S> {
     /// Build a feeder. `admin` must be the keypair the deployed program expects.
     /// `unit_price` is the priority fee in micro-lamports per compute unit.
     #[must_use]
-    pub fn new(rpc_url: &str, admin: Keypair, source: S, feeds: Vec<Feed>, unit_price: u64) -> Self {
+    pub fn new(
+        rpc_url: &str,
+        admin: Keypair,
+        source: S,
+        feeds: Vec<Feed>,
+        unit_price: u64,
+    ) -> Self {
         Self {
             client: RpcClient::new(rpc_url.to_string()),
             admin,

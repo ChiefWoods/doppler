@@ -23,9 +23,8 @@
 use std::cmp::Ordering;
 use std::time::Duration;
 
+use doppler_price_source::{aggregate, scalar_to_minor, Aggregate};
 use serde_json::Value;
-
-use crate::source::{aggregate, scalar_to_minor, Aggregate};
 
 /// Endpoint base. Exact host/path + auth still need confirming against the live
 /// assets-api; override with [`TokensXyz::with_base_url`].
@@ -238,14 +237,21 @@ pub fn pick_primary(variants: &[Value]) -> Option<&Value> {
             })
         })
         .or_else(|| {
-            variants
-                .iter()
-                .max_by(|a, b| liquidity(a).partial_cmp(&liquidity(b)).unwrap_or(Ordering::Equal))
+            variants.iter().max_by(|a, b| {
+                liquidity(a)
+                    .partial_cmp(&liquidity(b))
+                    .unwrap_or(Ordering::Equal)
+            })
         })
 }
 
 /// Median price across variants whose trust tier is allowed. One quote per asset.
-fn median_quote(asset_id: &str, variants: &[Value], tiers: &[Tier], decimals: u32) -> Option<Quote> {
+fn median_quote(
+    asset_id: &str,
+    variants: &[Value],
+    tiers: &[Tier],
+    decimals: u32,
+) -> Option<Quote> {
     let prices: Vec<u64> = variants
         .iter()
         .filter(|v| tier_allowed(v, tiers))

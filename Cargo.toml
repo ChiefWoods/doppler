@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["doppler", "examples", "feeder", "program", "sdk"]
+members = ["doppler", "examples", "feeder", "price-source", "program", "sdk"]
 
 [workspace.package]
 repository = "https://github.com/blueshift-gg/doppler"
@@ -11,11 +11,13 @@ version = "0.1.0"
 
 [workspace.dependencies]
 doppler = { path = "./doppler" }
+doppler-price-source = { path = "./price-source" }
 doppler-program = { path = "./program" }
 doppler-sdk = { path = "./sdk" }
 mollusk-svm = { version = "0.5.1" }
 mollusk-svm-bencher = { version = "0.5.1" }
 serde = { version = "1.0.219" }
+serde_json = "1"
 solana-account = { version = "2.2.1" }
 solana-client = { version = "2.2.3" }
 solana-clock = { version = "2.2.2" }

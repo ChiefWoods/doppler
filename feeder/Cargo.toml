@@ -8,6 +8,7 @@ edition = { workspace = true }
 version = { workspace = true }
 
 [dependencies]
+doppler-price-source = { workspace = true }
 doppler-program = { workspace = true }
 doppler-sdk = { workspace = true }
 solana-client = { workspace = true }
@@ -15,7 +16,7 @@ solana-keypair = { workspace = true }
 solana-pubkey = { workspace = true }
 solana-signer = { workspace = true }
 reqwest = { version = "0.12", features = ["blocking", "json"] }
-serde_json = "1"
+serde_json = { workspace = true }
 
 [lib]
 name = "doppler_feeder"
