@@ -26,8 +26,7 @@ use std::time::Duration;
 use doppler_price_source::{aggregate, scalar_to_minor, Aggregate};
 use serde_json::Value;
 
-/// Endpoint base. Exact host/path + auth still need confirming against the live
-/// assets-api; override with [`TokensXyz::with_base_url`].
+/// Endpoint base; override with [`TokensXyz::with_base_url`].
 pub const DEFAULT_BASE_URL: &str = "https://api.tokens.xyz";
 
 /// Which assets to feed.
@@ -158,8 +157,7 @@ impl TokensXyz {
     }
 
     /// Resolve the current selection into concrete [`Quote`]s, scaling prices to
-    /// `decimals`. One request per asset; `Assets::All` first needs the list-assets
-    /// endpoint (not yet wired).
+    /// `decimals`. One request is made per asset.
     pub fn resolve(&self, decimals: u32) -> Result<Vec<Quote>, String> {
         let FeedType::Spot = &self.feed; // only metric supported today
         let asset_ids = match &self.assets {
@@ -174,13 +172,12 @@ impl TokensXyz {
         Ok(quotes)
     }
 
-    /// Fetch one asset's variants document. Path + auth are assumptions to confirm
-    /// against the live API; isolated here so the finisher changes one place.
+    /// Fetch one asset's variants document.
     fn fetch_asset(&self, asset_id: &str) -> Result<Value, String> {
-        let url = format!("{}/assets/{asset_id}", self.base_url); // TODO confirm exact path
+        let url = format!("{}/v1/assets/{asset_id}/variants", self.base_url);
         self.client
             .get(&url)
-            .bearer_auth(&self.api_key) // TODO confirm auth scheme (bearer vs x-api-key)
+            .header("x-api-key", &self.api_key)
             .send()
             .map_err(|e| format!("request failed: {e}"))?
             .error_for_status()
@@ -189,10 +186,9 @@ impl TokensXyz {
             .map_err(|e| format!("bad json: {e}"))
     }
 
-    /// `Assets::All` needs the list-assets endpoint to enumerate the universe.
-    /// Wire it once the path is known; ship `Assets::List` first.
+    /// `Assets::All` is not supported yet; callers must provide an explicit list.
     fn list_all_assets(&self) -> Result<Vec<String>, String> {
-        Err("Assets::All not wired yet: need the list-assets endpoint + pagination".to_string())
+        Err("Assets::All is not supported yet; provide Assets::List".to_string())
     }
 }
 
