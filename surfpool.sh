@@ -17,4 +17,4 @@ fi
 
 echo "Starting Surfpool..."
 
-surfpool start "$@"
+surfpool start -r runbooks/setup.tx -k examples/keys/admin-keypair.json
