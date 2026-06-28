@@ -65,7 +65,7 @@ pub struct Feeder<S: PriceSource> {
     admin: Keypair,
     source: S,
     feeds: Vec<Feed>,
-    unit_price: u64,
+    unit_price: Option<u64>,
 }
 
 impl<S: PriceSource> Feeder<S> {
@@ -77,7 +77,7 @@ impl<S: PriceSource> Feeder<S> {
         admin: Keypair,
         source: S,
         feeds: Vec<Feed>,
-        unit_price: u64,
+        unit_price: Option<u64>,
     ) -> Self {
         Self {
             client: RpcClient::new(rpc_url.to_string()),
@@ -141,6 +141,15 @@ impl<S: PriceSource> Feeder<S> {
             .client
             .get_latest_blockhash()
             .map_err(|e| format!("blockhash: {e}"))?;
+
+        let unit_price = match self.unit_price {
+            Some(unit_price) => unit_price,
+            None => {
+                let rpc_prioritization_fees = self.client.get_recent_prioritization_fees(&[feed.oracle]).map_err(|e| format!("get recent prioritization fees: {e}"))?;
+                get_average_prioritization_fee(&rpc_prioritization_fees)
+            }
+        };
+
         let tx = Builder::new(&self.admin)
             .add_oracle_update(
                 feed.oracle,
@@ -149,7 +158,7 @@ impl<S: PriceSource> Feeder<S> {
                     payload: PriceFeed { price },
                 },
             )
-            .with_unit_price(self.unit_price)
+            .with_unit_price(unit_price)
             .build(blockhash);
 
         let signature = self

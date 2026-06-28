@@ -51,7 +51,7 @@ fn main() {
         Pubkey::from_str_const("QUVF91dzXWYvE5FmFEc41JZxRDmNgx8S8P6sNDWYZiW"),
     )];
 
-    let feeder = Feeder::new(&rpc_url, admin, Coinbase::usd(), feeds, unit_price);
+    let feeder = Feeder::new(&rpc_url, admin, Coinbase::usd(), feeds, Some(unit_price));
     println!(
         "doppler feeder: {} feed(s) every {}s -> {rpc_url}",
         feeder.feed_count(),
