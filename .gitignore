@@ -3,6 +3,7 @@
 /sdk/target
 /program/target
 /deploy
+.env
 
 # Configuration files
 .DS_Store
