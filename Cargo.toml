@@ -10,6 +10,7 @@ members = [
     "sources/binance",
     "sources/coinbase",
     "sources/http-json",
+    "sources/jupiter",
     "sources/tokens-xyz",
 ]
 
@@ -26,6 +27,7 @@ doppler-price-source = { path = "./price-source" }
 doppler-price-source-binance = { path = "./sources/binance" }
 doppler-price-source-coinbase = { path = "./sources/coinbase" }
 doppler-price-source-http-json = { path = "./sources/http-json" }
+doppler-price-source-jupiter = { path = "./sources/jupiter" }
 doppler-price-source-tokens-xyz = { path = "./sources/tokens-xyz" }
 doppler-program = { path = "./program" }
 doppler-sdk = { path = "./sdk" }

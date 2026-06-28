@@ -25,8 +25,8 @@ feeder.run(Duration::from_secs(60)); // fetch -> push every 60s, forever
 - **`doppler-price-source`** — `PriceSource` trait + shared conversion helpers.
   `parse_decimal_to_minor` converts a decimal string to integer minor units
   (6 decimals) **without floating point**.
-- **`sources/*`** — provider crates for Coinbase, Binance, config-driven
-  `HttpJson`, and tokens.xyz.
+- **`sources/*`** — provider crates for Coinbase, Binance, Jupiter,
+  config-driven `HttpJson`, and tokens.xyz.
 - **`lib.rs`** — `Feeder::tick()` pushes one fresh price per `Feed`; a feed that
   fails (source down, RPC error) is **skipped, never pushed stale**. `Feeder::run()`
   loops on an interval. The on-chain sequence is push-time millis
