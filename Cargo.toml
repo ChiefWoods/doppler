@@ -8,6 +8,7 @@ members = [
     "program",
     "sdk",
     "sources/binance",
+    "sources/birdeye",
     "sources/coinbase",
     "sources/http-json",
     "sources/jupiter",
@@ -25,6 +26,7 @@ version = "0.1.0"
 doppler = { path = "./doppler" }
 doppler-price-source = { path = "./price-source" }
 doppler-price-source-binance = { path = "./sources/binance" }
+doppler-price-source-birdeye = { path = "./sources/birdeye" }
 doppler-price-source-coinbase = { path = "./sources/coinbase" }
 doppler-price-source-http-json = { path = "./sources/http-json" }
 doppler-price-source-jupiter = { path = "./sources/jupiter" }

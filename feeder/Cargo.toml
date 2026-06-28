@@ -10,6 +10,7 @@ version = { workspace = true }
 [dependencies]
 doppler-price-source = { workspace = true }
 doppler-price-source-binance = { workspace = true }
+doppler-price-source-birdeye = { workspace = true }
 doppler-price-source-coinbase = { workspace = true }
 doppler-price-source-http-json = { workspace = true }
 doppler-price-source-jupiter = { workspace = true }
