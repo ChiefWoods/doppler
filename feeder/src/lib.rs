@@ -13,6 +13,7 @@ use std::time::{Duration, SystemTime, UNIX_EPOCH};
 use doppler_program::PriceFeed;
 use doppler_sdk::{transaction::Builder, Oracle};
 use solana_client::rpc_client::RpcClient;
+use solana_client::rpc_response::RpcPrioritizationFee;
 use solana_keypair::Keypair;
 use solana_pubkey::Pubkey;
 
@@ -198,6 +199,11 @@ pub fn format_minor(value: u64, decimals: u32) -> String {
         frac_str.pop();
     }
     format!("{int}.{frac_str}")
+}
+
+fn get_average_prioritization_fee(prioritization_fees: &[RpcPrioritizationFee]) -> u64 {
+    let total = prioritization_fees.iter().map(|p| p.prioritization_fee).sum::<u64>();
+    total / prioritization_fees.len() as u64
 }
 
 #[cfg(test)]
