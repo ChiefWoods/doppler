@@ -1,0 +1,17 @@
+[package]
+name = "doppler-price-source-http-json"
+description = "Config-driven HTTP JSON price source for Doppler."
+repository = { workspace = true }
+readme = { workspace = true }
+license-file = { workspace = true }
+edition = { workspace = true }
+version = { workspace = true }
+
+[dependencies]
+doppler-price-source = { workspace = true }
+reqwest = { workspace = true }
+serde_json = { workspace = true }
+
+[lib]
+name = "doppler_price_source_http_json"
+path = "src/lib.rs"

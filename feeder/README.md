@@ -22,10 +22,11 @@ feeder.run(Duration::from_secs(60)); // fetch -> push every 60s, forever
                  └─────────────────┘      └─────────────────────┘
 ```
 
-- **`source.rs`** — `PriceSource` trait + a keyless `Coinbase` USD-spot source.
+- **`doppler-price-source`** — `PriceSource` trait + shared conversion helpers.
   `parse_decimal_to_minor` converts a decimal string to integer minor units
-  (6 decimals) **without floating point**. Swap in Binance / tokens.xyz / a CEX by
-  implementing the trait; nothing else changes.
+  (6 decimals) **without floating point**.
+- **`sources/*`** — provider crates for Coinbase, Binance, config-driven
+  `HttpJson`, and tokens.xyz.
 - **`lib.rs`** — `Feeder::tick()` pushes one fresh price per `Feed`; a feed that
   fails (source down, RPC error) is **skipped, never pushed stale**. `Feeder::run()`
   loops on an interval. The on-chain sequence is push-time millis
@@ -74,8 +75,8 @@ good as the source and the operator. Consumers must guard staleness on read.
    `create_account_with_seed`, admin as base) and `doppler run`. This replaces the
    hardcoded demo config in `main.rs` and unlocks **BTC/ETH/SOL** by creating three
    accounts instead of reusing the one example SOL account.
-2. **More sources** behind `PriceSource` — Binance, tokens.xyz (needs API key + ToS
-   check on on-chain redistribution).
+2. **More source hardening** — tokens.xyz needs API path/auth confirmation and ToS
+   check on on-chain redistribution.
 3. **Priority fees** — replace the static `unit_price` with a dynamic estimate
    (`getRecentPrioritizationFees`) for mainnet.
 4. **TS SDK** — mirror `createFeed().run()` for web devs.

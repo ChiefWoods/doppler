@@ -16,13 +16,11 @@ use solana_client::rpc_client::RpcClient;
 use solana_keypair::Keypair;
 use solana_pubkey::Pubkey;
 
-pub mod raw;
-pub mod source;
-pub mod tokens;
 pub use doppler_price_source::{aggregate, scalar_to_minor, Aggregate, PriceSource};
-pub use raw::RawSource;
-pub use source::{Binance, Coinbase};
-pub use tokens::{Assets, FeedType, Quote, Tier, TokensXyz, Variant};
+pub use doppler_price_source_binance::Binance;
+pub use doppler_price_source_coinbase::Coinbase;
+pub use doppler_price_source_http_json::{pick, HttpJson};
+pub use doppler_price_source_tokens_xyz::{Assets, FeedType, Quote, Tier, TokensXyz, Variant};
 
 /// Decimals encoded into the on-chain `u64` price (USDC-style, matches the README).
 pub const PRICE_DECIMALS: u32 = 6;

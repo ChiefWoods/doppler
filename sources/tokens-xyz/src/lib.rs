@@ -13,7 +13,7 @@
 //! - **which metric**  — [`FeedType::Spot`] today
 //!
 //! ```no_run
-//! use doppler_feeder::{TokensXyz, Assets, Variant, Tier};
+//! use doppler_price_source_tokens_xyz::{Assets, Tier, TokensXyz, Variant};
 //! let src = TokensXyz::new("API_KEY")
 //!     .assets(Assets::list(["bitcoin", "ethereum", "solana"]))
 //!     .variant(Variant::Median(vec![Tier::Tier1, Tier::Tier2])); // mediated price

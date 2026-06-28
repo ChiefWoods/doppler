@@ -1,21 +1,22 @@
-//! Generic "raw" JSON HTTP source: teach the feeder a new price API by config,
-//! with no per-API Rust.
+//! Generic HTTP JSON source: teach the feeder a new price API by config, with no
+//! per-API Rust.
 //!
 //! Configure a URL template (`{asset}` / `{symbol}` are substituted), optional
 //! headers / bearer auth, a **JSON Pointer** (RFC 6901, built into `serde_json`) to
 //! the price, and how to aggregate when the pointer lands on an array of numbers.
 //!
 //! ```no_run
-//! use doppler_feeder::{RawSource, Aggregate};
-//! let src = RawSource::get("https://api.coinbase.com/v2/prices/{asset}-USD/spot")
+//! use doppler_price_source::{Aggregate, PriceSource};
+//! use doppler_price_source_http_json::HttpJson;
+//!
+//! let src = HttpJson::get("https://api.coinbase.com/v2/prices/{asset}-USD/spot")
 //!     .select("/data/amount")
 //!     .decimals(6);
-//! let price = src.price("BTC").unwrap();
+//! let price = src.price_minor("BTC", 6).unwrap();
 //! ```
 //!
 //! JSON Pointer reaches scalars and arrays-of-scalars. For a price buried in an
-//! array of *objects* (e.g. pick the tier1 variants out of tokens.xyz), use the
-//! native [`crate::TokensXyz`], or a JSONPath selector once that's added.
+//! array of objects, use a native source or a JSONPath selector once that's added.
 
 use std::time::Duration;
 
@@ -23,7 +24,7 @@ use doppler_price_source::{aggregate, scalar_to_minor, Aggregate, PriceSource};
 use serde_json::Value;
 
 /// A config-driven JSON HTTP price source.
-pub struct RawSource {
+pub struct HttpJson {
     client: reqwest::blocking::Client,
     url: String,
     headers: Vec<(String, String)>,
@@ -33,7 +34,7 @@ pub struct RawSource {
     decimals: u32,
 }
 
-impl RawSource {
+impl HttpJson {
     /// Start a GET source against `url` (a template; `{asset}` is substituted).
     /// Defaults: no auth, empty pointer (set with `select`), `Aggregate::First`, 6 decimals.
     #[must_use]
@@ -109,7 +110,7 @@ impl RawSource {
     }
 }
 
-impl PriceSource for RawSource {
+impl PriceSource for HttpJson {
     /// Uses the source's own configured decimals; the trait's `decimals` is ignored.
     fn price_minor(&self, symbol: &str, _decimals: u32) -> Result<u64, String> {
         self.price(symbol)
