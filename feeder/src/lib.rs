@@ -20,6 +20,7 @@ pub use doppler_price_source::{aggregate, scalar_to_minor, Aggregate, PriceSourc
 pub use doppler_price_source_binance::Binance;
 pub use doppler_price_source_birdeye::Birdeye;
 pub use doppler_price_source_coinbase::Coinbase;
+pub use doppler_price_source_coingecko::CoinGecko;
 pub use doppler_price_source_http_json::{pick, HttpJson};
 pub use doppler_price_source_jupiter::Jupiter;
 pub use doppler_price_source_tokens_xyz::{Assets, FeedType, Quote, Tier, TokensXyz, Variant};
