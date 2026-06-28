@@ -1,0 +1,12 @@
+---
+name: doppler
+id: doppler
+runbooks:
+  - name: setup
+    id: setup
+    description: Deploy the doppler program and seed the oracle and admin accounts on the local surfnet.
+    location: runbooks/setup.tx
+environments:
+  localnet:
+    rpc_api_url: http://127.0.0.1:8899
+    network_id: localnet
