@@ -23,7 +23,7 @@
 use std::cmp::Ordering;
 use std::time::Duration;
 
-use doppler_price_source::{aggregate, scalar_to_minor, Aggregate};
+use doppler_price_source::{aggregate, scalar_to_minor, Aggregate, PriceSource};
 use serde_json::Value;
 
 /// Endpoint base; override with [`TokensXyz::with_base_url`].
@@ -189,6 +189,16 @@ impl TokensXyz {
     /// `Assets::All` is not supported yet; callers must provide an explicit list.
     fn list_all_assets(&self) -> Result<Vec<String>, String> {
         Err("Assets::All is not supported yet; provide Assets::List".to_string())
+    }
+}
+
+impl PriceSource for TokensXyz {
+    fn price_minor(&self, asset_id: &str, decimals: u32) -> Result<u64, String> {
+        self.resolve(decimals)?
+            .into_iter()
+            .find(|q| q.asset_id == asset_id)
+            .map(|q| q.price)
+            .ok_or_else(|| format!("no quote for {asset_id}"))
     }
 }
 
