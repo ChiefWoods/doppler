@@ -31,18 +31,35 @@ pub const PRICE_DECIMALS: u32 = 6;
 
 /// A single feed the feeder keeps fresh: a human symbol and the oracle account it writes to.
 pub struct Feed {
-    /// Source symbol, e.g. `"SOL"`.
+    /// Human label for logs, e.g. `"BTC"`.
     pub symbol: String,
+    /// Source-specific asset id when it differs from `symbol` (e.g. tokens.xyz `"bitcoin"`).
+    pub asset_id: Option<String>,
     /// The on-chain oracle account this symbol's price is written to.
     pub oracle: Pubkey,
 }
 
 impl Feed {
-    /// Convenience constructor.
+    /// Convenience constructor. The price source lookup key is `symbol`.
     #[must_use]
     pub fn new(symbol: impl Into<String>, oracle: Pubkey) -> Self {
         Self {
             symbol: symbol.into(),
+            asset_id: None,
+            oracle,
+        }
+    }
+
+    /// Constructor when the source expects a different id than `symbol`.
+    #[must_use]
+    pub fn with_asset_id(
+        symbol: impl Into<String>,
+        asset_id: impl Into<String>,
+        oracle: Pubkey,
+    ) -> Self {
+        Self {
+            symbol: symbol.into(),
+            asset_id: Some(asset_id.into()),
             oracle,
         }
     }
@@ -120,7 +137,8 @@ impl<S: PriceSource> Feeder<S> {
     /// Fetch + push a single feed. Returns the [`Update`] on success.
     fn update_feed(&self, feed: &Feed) -> Result<Update, String> {
         // 1. Fetch the live price. On failure, propagate so the feed is skipped.
-        let price = self.source.price_minor(&feed.symbol, PRICE_DECIMALS)?;
+        let lookup = feed.asset_id.as_deref().unwrap_or(&feed.symbol);
+        let price = self.source.price_minor(lookup, PRICE_DECIMALS)?;
 
         // 2. Read the current sequence so the new one is strictly greater. The
         //    program rejects `new <= current`. Push-time millis is monotonic and
