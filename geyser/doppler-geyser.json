@@ -1,6 +1,0 @@
-{
-  "name": "doppler-geyser",
-  "libpath": "target/release/libdoppler_geyser.dylib",
-  "program_id": "fastRQJt3nLdY3QA7n8eZ8ETEVefy56ryfUGVkfZokm",
-  "log_transactions": true
-}

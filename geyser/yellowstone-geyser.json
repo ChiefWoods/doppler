@@ -1,0 +1,23 @@
+{
+  "libpath": "libyellowstone_grpc_geyser.dylib",
+  "log": {
+    "level": "info"
+  },
+  "grpc": {
+    "listen": [
+      {
+        "address": "127.0.0.1:10000"
+      }
+    ],
+    "compression": {
+      "accept": ["gzip", "zstd"],
+      "send": ["gzip", "zstd"]
+    },
+    "max_decoding_message_size": "4_194_304",
+    "channel_capacity": "100_000",
+    "unary_concurrency_limit": 100,
+    "unary_disabled": false,
+    "x_token": null,
+    "replay_stored_slots": 0
+  }
+}

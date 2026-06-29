@@ -15,7 +15,6 @@ members = [
     "sources/jupiter",
     "sources/okx",
     "sources/tokens-xyz",
-    "geyser",
 ]
 
 [workspace.package]
@@ -43,7 +42,6 @@ mollusk-svm = { version = "0.5.1" }
 mollusk-svm-bencher = { version = "0.5.1" }
 serde = { version = "1.0.219" }
 serde_json = "1"
-agave-geyser-plugin-interface = "=2.3.8"
 reqwest = { version = "0.12", features = ["blocking", "json"] }
 solana-account = { version = "2.2.1" }
 solana-client = { version = "2.2.3" }
