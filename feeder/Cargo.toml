@@ -15,6 +15,7 @@ doppler-price-source-coingecko = { workspace = true }
 doppler-price-source-coinbase = { workspace = true }
 doppler-price-source-http-json = { workspace = true }
 doppler-price-source-jupiter = { workspace = true }
+doppler-price-source-okx = { workspace = true }
 doppler-price-source-tokens-xyz = { workspace = true }
 doppler-program = { workspace = true }
 doppler-sdk = { workspace = true }

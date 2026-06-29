@@ -24,6 +24,7 @@ pub use doppler_price_source_coinbase::Coinbase;
 pub use doppler_price_source_coingecko::CoinGecko;
 pub use doppler_price_source_http_json::{pick, HttpJson};
 pub use doppler_price_source_jupiter::Jupiter;
+pub use doppler_price_source_okx::Okx;
 pub use doppler_price_source_tokens_xyz::{Assets, FeedType, Quote, Tier, TokensXyz, Variant};
 
 /// Decimals encoded into the on-chain `u64` price (USDC-style, matches the README).
