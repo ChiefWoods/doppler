@@ -25,6 +25,34 @@ action "setup" "svm::setup_surfnet" {
     set_account {
         account_path = "./examples/accounts/bonk-sol-price-feed-oracle.json"
     }
+
+    set_account {
+        account_path = "./examples/accounts/eth-usd-price-feed-oracle.json"
+    }
+
+    set_account {
+        account_path = "./examples/accounts/btc-usd-price-feed-oracle.json"
+    }
+
+    set_account {
+        account_path = "./examples/accounts/sui-usd-price-feed-oracle.json"
+    }
+
+    set_account {
+        account_path = "./examples/accounts/bnb-usd-price-feed-oracle.json"
+    }
+
+    set_account {
+        account_path = "./examples/accounts/jup-usd-price-feed-oracle.json"
+    }
+
+    set_account {
+        account_path = "./examples/accounts/onyc-usd-price-feed-oracle.json"
+    }
+
+    set_account {
+        account_path = "./examples/accounts/usdt-usd-price-feed-oracle.json"
+    }
     
     set_account {
         account_path = "./examples/accounts/admin-account.json"

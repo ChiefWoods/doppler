@@ -19,6 +19,7 @@ doppler-price-source-okx = { workspace = true }
 doppler-price-source-tokens-xyz = { workspace = true }
 doppler-program = { workspace = true }
 doppler-sdk = { workspace = true }
+dotenvy = { workspace = true }
 solana-client = { workspace = true }
 solana-keypair = { workspace = true }
 solana-pubkey = { workspace = true }

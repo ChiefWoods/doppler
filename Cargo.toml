@@ -37,6 +37,7 @@ doppler-price-source-okx = { path = "./sources/okx" }
 doppler-price-source-tokens-xyz = { path = "./sources/tokens-xyz" }
 doppler-program = { path = "./program" }
 doppler-sdk = { path = "./sdk" }
+dotenvy = "0.15"
 mollusk-svm = { version = "0.5.1" }
 mollusk-svm-bencher = { version = "0.5.1" }
 serde = { version = "1.0.219" }
